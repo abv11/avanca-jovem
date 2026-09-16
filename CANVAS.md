@@ -2,7 +2,7 @@
 
 |                           |                                |
 | ------------------------- | ------------------------------ |
-| **Grupo nº**              |                                |
+| **Nome do Grupo**         | Avança Jovem                   |
 | **Integrantes**           | Angélica, Laura, Luiz, Rillary |
 | **Turma**                 | 3º ano B — Ensino Médio        |
 | **Repositório**           | `https://github.com/____/____` |
