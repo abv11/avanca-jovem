@@ -112,9 +112,7 @@ Não fazem parte do escopo do MVP:
 
 ### Arquivos de referência
 
-* `docs/telas/01-principal.png`
-* `docs/telas/02-cadastro-detalhe.png`
-
+* `link_telas.md‘
 ---
 
 # 7. Dados
