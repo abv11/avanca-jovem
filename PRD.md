@@ -112,7 +112,8 @@ Não fazem parte do escopo do MVP:
 
 ### Arquivos de referência
 
-* `link_telas.md‘
+* [Protótipo no Figma](https://www.figma.com/proto/L8BE0vWAjCd9kOXjMasNZ0/Untitled?node-id=1-2&starting-point-node-id=1%3A2)
+
 ---
 
 # 7. Dados
