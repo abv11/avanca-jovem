@@ -38,7 +38,7 @@ O aplicativo utiliza o **Room** para armazenamento local e funciona de forma off
 
 ## 📁 Estrutura do projeto
 
-
+```text
 app/
 └── src/main/java/br/edu/ifpe/avancajovem/
     ├── data/
@@ -50,6 +50,7 @@ app/
         ├── features/
         ├── navigation/
         └── theme/
+```
 
 
 ## 🗃️ Entidades
