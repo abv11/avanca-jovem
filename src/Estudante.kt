@@ -1,12 +1,7 @@
-package br.edu.ifpe.avancajovem.data.local.entity
+package br.edu.ifpe.avancajovem.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-
-@Entity(tableName = "estudantes")
 data class Estudante(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    val id: Long,
     val nome: String,
-    val pontos: Int = 0
+    val pontos: Int
 )
