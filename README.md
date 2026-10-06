@@ -1,4 +1,4 @@
-````markdown
+
 # Avança Jovem
 
 Aplicativo Android desenvolvido para ajudar estudantes de 12 a 18 anos a manter o foco e participar das atividades escolares por meio de metas simples, acompanhamento de progresso e pequenas recompensas.
@@ -38,7 +38,7 @@ O aplicativo utiliza o **Room** para armazenamento local e funciona de forma off
 
 ## 📁 Estrutura do projeto
 
-```text
+
 app/
 └── src/main/java/br/edu/ifpe/avancajovem/
     ├── data/
@@ -50,7 +50,7 @@ app/
         ├── features/
         ├── navigation/
         └── theme/
-````
+
 
 ## 🗃️ Entidades
 
