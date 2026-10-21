@@ -1,1 +1,27 @@
-/build
+.env
+.env.*
+!.env.example
+
+# Gradle e arquivos gerados pelo Android
+**/.gradle/
+**/build/
+local.properties
+**/local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Android Studio e IntelliJ IDEA
+.idea/
+*.iml
+
+# Arquivos locais de assinatura e credenciais
+*.jks
+*.keystore
+keystore.properties
+secrets.properties
+
+# Arquivos temporários do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
