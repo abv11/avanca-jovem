@@ -57,3 +57,11 @@ Não adicione código ou dependências para as seguintes funções:
 ## Comentários de Fronteira e Autorização
 - Arquivos novos devem seguir o padrão de comentário de fronteira exigido pelo projeto. Como não há um modelo específico, não invente um formato próprio.
 - Não realize alterações fora do escopo solicitado sem autorização explícita do grupo. Na dúvida, aguarde orientação.
+
+## Convenção de nomes para saídas de IA
+- Para cada prompt em `ai/prompts/`, gerar um arquivo de saída em `ai/outputs/` com o nome baseado no prompt original.
+- Formato obrigatório: `<nome-do-prompt>-resultado.md`.
+- Exemplo: `20260930-prd.md` -> `20260930-prd-resultado.md`.
+- Nunca usar o nome genérico `resultado.md` para novos outputs.
+- Se um arquivo antigo com o nome genérico existir, renomeá-lo para a convenção correta antes de gravar o novo conteúdo.
+- Esta regra deve valer para todas as tarefas futuras do repositório para manter organização e evitar sobrescritas.
