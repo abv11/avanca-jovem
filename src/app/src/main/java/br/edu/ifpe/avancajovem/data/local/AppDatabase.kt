@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import br.edu.ifpe.avancajovem.data.local.dao.ConclusaoDao
 import br.edu.ifpe.avancajovem.data.local.dao.EstudanteDao
@@ -24,7 +25,7 @@ import kotlinx.coroutines.launch
         RecompensaEntity::class,
         ConclusaoEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -37,6 +38,17 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Remove duplicadas mantendo apenas a conclusão mais recente por meta
+                db.execSQL("DELETE FROM conclusao WHERE id NOT IN (SELECT MAX(id) FROM conclusao GROUP BY metaId);")
+                
+                // Criação dos índices usando o escapamento padrão de strings do SQLite
+                db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_conclusao_metaId` ON `conclusao` (`metaId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_conclusao_dataConclusao` ON `conclusao` (`dataConclusao`)")
+            }
+        }
+
         fun getInstance(context: Context): AppDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -44,20 +56,22 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "avancajovem_database"
                 )
-                .addCallback(DatabaseCallback())
+                .addMigrations(MIGRATION_1_2)
+                .addCallback(DatabaseCallback(context.applicationContext)) // Passando o context para evitar vazamento
                 .build()
                 INSTANCE = instance
                 instance
             }
         }
 
-        private class DatabaseCallback : RoomDatabase.Callback() {
+        // Ajustado para receber o contexto e evitar o problema de ler a INSTANCE como nula no onCreate
+        private class DatabaseCallback(private val context: Context) : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                INSTANCE?.let { database ->
-                    CoroutineScope(Dispatchers.IO).launch {
-                        seedDatabase(database)
-                    }
+                CoroutineScope(Dispatchers.IO).launch {
+                    // Busca a instância com segurança que agora já estará construída
+                    val database = getInstance(context)
+                    seedDatabase(database)
                 }
             }
         }

@@ -16,7 +16,10 @@ import br.edu.ifpe.avancajovem.model.Conclusao
             onDelete = ForeignKey.CASCADE
         )
     ],
-    indices = [Index(value = ["metaId"])]
+    indices = [
+        Index(value = ["metaId"], name = "index_conclusao_metaId", unique = true),
+        Index(value = ["dataConclusao"], name = "index_conclusao_dataConclusao")
+    ]
 )
 data class ConclusaoEntity(
     @PrimaryKey(autoGenerate = true)
