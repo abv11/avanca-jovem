@@ -21,6 +21,6 @@ interface ConclusaoDao {
     @Query("SELECT * FROM conclusao WHERE metaId = :metaId LIMIT 1")
     suspend fun getConclusaoByMetaId(metaId: Long): ConclusaoEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insertConclusao(conclusao: ConclusaoEntity): Long
 }
