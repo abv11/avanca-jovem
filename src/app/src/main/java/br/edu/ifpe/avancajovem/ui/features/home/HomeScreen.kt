@@ -79,103 +79,56 @@ fun HomeScreen(
             }
         }
     ) { innerPadding ->
-        if (uiState.isLoading) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                CircularProgressIndicator(color = BluePrimary)
+        when (val state = uiState) {
+            UiState.Carregando -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    CircularProgressIndicator(color = BluePrimary)
+                }
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding),
-                contentPadding = PaddingValues(bottom = 88.dp, start = 20.dp, end = 20.dp, top = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // Header
-                item {
-                    Column {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "Olá, estudante!",
-                                style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Icon(
-                                imageVector = Icons.Default.TrendingUp,
-                                contentDescription = null,
-                                tint = BluePrimary,
-                                modifier = Modifier.size(28.dp)
-                            )
-                        }
 
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = "Pronto para avançar hoje?",
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-
-                // Error Message if any
-                if (uiState.errorMessage != null) {
+            UiState.Vazio -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentPadding = PaddingValues(bottom = 88.dp, start = 20.dp, end = 20.dp, top = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
                     item {
-                        ErrorMessage(
-                            message = uiState.errorMessage!!,
-                            onDismiss = { viewModel.clearError() }
-                        )
-                    }
-                }
+                        Column {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Olá, estudante!",
+                                    style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    imageVector = Icons.Default.TrendingUp,
+                                    contentDescription = null,
+                                    tint = BluePrimary,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
 
-                // Points Card
-                item {
-                    PointsCard(pontos = uiState.estudante.pontos)
-                }
+                            Spacer(modifier = Modifier.height(4.dp))
 
-                // Progress Card
-                item {
-                    ProgressCard(
-                        concluidas = uiState.metasConcluidas,
-                        total = uiState.totalMetas
-                    )
-                }
-
-                // Section Title: Minhas metas
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Minhas metas",
-                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        if (uiState.totalMetas > 0) {
                             Text(
-                                text = "${uiState.metas.size} no total",
-                                style = MaterialTheme.typography.bodyMedium,
+                                text = "Pronto para avançar hoje?",
+                                style = MaterialTheme.typography.bodyLarge,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
-                }
 
-                // List of metas OR Empty state
-                if (uiState.metas.isEmpty()) {
                     item {
                         EmptyState(
                             title = "Você ainda não possui metas.",
@@ -184,9 +137,103 @@ fun HomeScreen(
                             onButtonClick = onNavigateToCriarMeta
                         )
                     }
-                } else {
+                }
+            }
+
+            is UiState.Erro -> {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentPadding = PaddingValues(bottom = 88.dp, start = 20.dp, end = 20.dp, top = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    item {
+                        ErrorMessage(
+                            message = state.mensagem,
+                            onDismiss = { }
+                        )
+                    }
+                }
+            }
+
+            is UiState.Sucesso -> {
+                val estudante = state.estudante
+                val metas = state.metas
+                val metasConcluidas = metas.count { it.concluida }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
+                    contentPadding = PaddingValues(bottom = 88.dp, start = 20.dp, end = 20.dp, top = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    item {
+                        Column {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Olá, estudante!",
+                                    style = MaterialTheme.typography.headlineLarge.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Icon(
+                                    imageVector = Icons.Default.TrendingUp,
+                                    contentDescription = null,
+                                    tint = BluePrimary,
+                                    modifier = Modifier.size(28.dp)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(4.dp))
+
+                            Text(
+                                text = "Pronto para avançar hoje?",
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+
+                    item {
+                        PointsCard(pontos = estudante.pontos)
+                    }
+
+                    item {
+                        ProgressCard(
+                            concluidas = metasConcluidas,
+                            total = metas.size
+                        )
+                    }
+
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Minhas metas",
+                                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            if (metas.isNotEmpty()) {
+                                Text(
+                                    text = "${metas.size} no total",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+
                     items(
-                        items = uiState.metas,
+                        items = metas,
                         key = { it.id }
                     ) { meta ->
                         val dismissState = rememberSwipeToDismissBoxState()
