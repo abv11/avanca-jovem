@@ -9,7 +9,7 @@
 **Sabotagem realizada:** Remoção de todas as metas cadastradas no aplicativo.
 
 **Resultado observado:**
-[Descrever o que apareceu na tela.]
+O app não debugou
 
 **Comportamento esperado:** O aplicativo deve exibir o estado Vazio, informando que não existem metas cadastradas e oferecendo a opção de adicionar a primeira meta.
 

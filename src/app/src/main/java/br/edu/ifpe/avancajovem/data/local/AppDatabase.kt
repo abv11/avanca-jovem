@@ -102,25 +102,25 @@ abstract class AppDatabase : RoomDatabase() {
                 database.recompensaDao().insertAll(initialRecompensas)
             }
 
-            // Optional sample initial goals
-            if (database.metaDao().countMetas() == 0) {
-                database.metaDao().insertMeta(
-                    MetaEntity(
-                        titulo = "Revisar matemática",
-                        descricao = "Estudar equações do 2º grau e resolver 5 exercícios",
-                        pontos = 20,
-                        concluida = false
-                    )
-                )
-                database.metaDao().insertMeta(
-                    MetaEntity(
-                        titulo = "Ler 10 páginas de história",
-                        descricao = "Leitura do capítulo sobre o Brasil Império",
-                        pontos = 15,
-                        concluida = false
-                    )
-                )
+
             }
         }
     }
-}
+// Optional sample initial goals
+if (database.metaDao().countMetas() == 0) {
+    database.metaDao().insertMeta(
+        MetaEntity(
+            titulo = "Revisar matemática",
+            descricao = "Estudar equações do 2º grau e resolver 5 exercícios",
+            pontos = 20,
+            concluida = false
+        )
+    )
+    database.metaDao().insertMeta(
+        MetaEntity(
+            titulo = "Ler 10 páginas de história",
+            descricao = "Leitura do capítulo sobre o Brasil Império",
+            pontos = 15,
+            concluida = false
+        )
+    )}
