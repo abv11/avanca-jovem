@@ -75,6 +75,7 @@ class HomeViewModel(private val repository: AvancaJovemRepository) : ViewModel()
         }
     }
 
+
     fun clearError() {
         carregar()
     }

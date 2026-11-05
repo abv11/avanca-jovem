@@ -10,6 +10,7 @@ Analise o projeto Avança Jovem e elabore um planejamento para adaptar exclusiva
 
 O projeto já possui o `UiState.kt`, com a seguinte estrutura:
 
+
 - `UiState.Carregando`
 - `UiState.Vazio`
 - `UiState.Erro(mensagem: String)`
