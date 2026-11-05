@@ -75,6 +75,11 @@ class HomeViewModel(private val repository: AvancaJovemRepository) : ViewModel()
         }
     }
 
+
+    fun clearError() {
+        carregar()
+    }
+
     class Factory(private val repository: AvancaJovemRepository) : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
