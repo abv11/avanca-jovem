@@ -12,6 +12,9 @@ data class RecompensaEntity(
     val descricao: String,
     val pontosNecessarios: Int
 ) {
+    val pontosValidos: Boolean
+        get() = pontosNecessarios >= 0
+
     fun toDomain(): Recompensa = Recompensa(
         id = id,
         nome = nome,
@@ -20,11 +23,12 @@ data class RecompensaEntity(
     )
 
     companion object {
-        fun fromDomain(recompensa: Recompensa): RecompensaEntity = RecompensaEntity(
-            id = recompensa.id,
-            nome = recompensa.nome,
-            descricao = recompensa.descricao,
-            pontosNecessarios = recompensa.pontosNecessarios
-        )
+        fun fromDomain(recompensa: Recompensa): RecompensaEntity =
+            RecompensaEntity(
+                id = recompensa.id,
+                nome = recompensa.nome,
+                descricao = recompensa.descricao,
+                pontosNecessarios = recompensa.pontosNecessarios
+            )
     }
 }
